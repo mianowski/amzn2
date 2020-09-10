@@ -12,7 +12,7 @@ class Product(models.Model):
     )
     description = models.TextField(help_text="Enter Product Description")
 
-    def __str__():
+    def __str__(self):
         return "%s %s" % (self.barcode, self.name)
 
 
@@ -24,7 +24,7 @@ class Order(models.Model):
     ordered = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.username
+        return "%s" % (self.ordered_date)
 
 
 class OrderItem(models.Model):

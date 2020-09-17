@@ -8,13 +8,19 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'price_in_dollars', 'barcode', 'description')
 
 
-class OrderSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Order
-        fields = ('id', 'items', 'start_date', 'ordered_date', 'ordered')
+class OrderItemSerializer(serializers.HyperlinkedModelSerializer):
+    order_id = serializers.PrimaryKeyRelatedField(
+        queryset=models.Order.objects.all(), source='order.id')
 
-
-class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.OrderItem
-        fields = ('id', 'product', 'order', 'quantity')
+        fields = ('id', 'product', 'quantity')
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    order_items = OrderItemSerializer(many=True)
+
+    class Meta:
+        model = models.Order
+        fields = '__all__'
+        # fields = ('id', 'items', 'start_date', 'ordered_date', 'ordered')

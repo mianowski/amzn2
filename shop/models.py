@@ -7,6 +7,7 @@ class Product(models.Model):
         decimal_places=2,
         max_digits=6)
     barcode = models.CharField(
+        unique=True,
         max_length=13,
         help_text="Product Barcode (ISBN, UPC ...)"
     )
@@ -18,7 +19,6 @@ class Product(models.Model):
 
 class Order(models.Model):
 
-    items = models.ManyToManyField(Product, through='OrderItem')
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
@@ -30,6 +30,7 @@ class Order(models.Model):
 class OrderItem(models.Model):
     product = models.ForeignKey(
         Product,
+        related_name='order_items',
         on_delete=models.SET_NULL,
         null=True,
     )

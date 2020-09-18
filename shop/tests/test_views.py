@@ -34,8 +34,8 @@ class GetAllProductsTest(TestCase):
 
     def test_get_valid_single_product(self):
         response = client.get(
-            reverse('get_delete_update_product', kwargs={'pk': self.rambo.pk}))
-        product = Product.objects.get(pk=self.rambo.pk)
+            reverse('shop:products-mvs', kwargs={'pk': self.book.pk}))
+        product = Product.objects.get(pk=self.book.pk)
         serializer = ProductSerializer(product)
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
